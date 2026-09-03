@@ -281,6 +281,22 @@ body {
   font-family: var(--font-mono, ui-monospace, SFMono-Regular, monospace);
 }
 
+.workspace-link {
+  min-width: 0;
+  overflow: hidden;
+  color: color-mix(in srgb, var(--tool-accent) 78%, var(--color-text-secondary, #c7c7ce));
+  font-size: var(--font-text-sm-size, 12px);
+  line-height: 1.45;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workspace-link:hover,
+.workspace-link:focus-visible {
+  text-decoration: underline;
+}
+
 .workspace-base-value {
   display: flex;
   min-width: 0;
@@ -841,6 +857,7 @@ body {
 
   .workspace-row > .workspace-key,
   .workspace-row > .workspace-value,
+  .workspace-row > .workspace-link,
   .workspace-row > .workspace-chip-list,
   .workspace-row > .workspace-instructions-content {
     grid-column: 2;

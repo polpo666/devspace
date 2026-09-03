@@ -218,6 +218,11 @@ function assetUrl(baseUrl: string, assetPath: string): string {
   return `${baseUrl}/${assetPath.replace(/^\/+/, "")}`;
 }
 
+function workspaceEditorUrl(config: ServerConfig, root: string): string | undefined {
+  if (!config.editorBaseUrl) return undefined;
+  return `${config.editorBaseUrl}/?folder=${encodeURIComponent(root)}`;
+}
+
 function workspaceAppHtml(config: ServerConfig): string {
   const baseUrl = assetBaseUrl(config);
   const entry = getWorkspaceAppManifestEntry();
@@ -383,6 +388,7 @@ export function createMcpServer(
             reason: z.string(),
           }),
         ]),
+        editorUrl: z.string().optional(),
         instruction: z.string(),
       },
       ...workspaceAppDescriptorMeta(config),
@@ -449,6 +455,7 @@ export function createMcpServer(
         : workspace.mode === "worktree"
           ? "Use this workspaceId for subsequent work in this isolated worktree. Keep reusing it while working in this worktree. Follow the project instructions, nested instruction files, skills, agent profiles, and diagnostics returned for it."
           : cardInstruction;
+      const editorUrl = workspaceEditorUrl(config, workspace.root);
       const resultContent: ToolContent[] = [
         {
           type: "text" as const,
@@ -505,6 +512,7 @@ export function createMcpServer(
             agentProviders: cardAgentProviders,
             agents: cardAgents,
             review,
+            editorUrl,
             instruction: cardInstruction,
             summary: {
               mode: workspace.mode,
@@ -523,6 +531,7 @@ export function createMcpServer(
           sourceRoot: workspace.sourceRoot,
           worktree: workspace.worktree,
           review,
+          editorUrl,
           ...(includeBootstrapContext
             ? {
                 agentsFiles: loadedAgentsFiles,

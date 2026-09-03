@@ -18,6 +18,7 @@ export interface ServerConfig {
   publicBaseUrl: string;
   toolMode: ToolMode;
   uiEnabled: boolean;
+  editorBaseUrl: string | null;
   stateDir: string;
   worktreeRoot: string;
   artifactsEnabled: boolean;
@@ -66,6 +67,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): ServerConfig {
     publicBaseUrl,
     toolMode: stored.tools.mode,
     uiEnabled: stored.ui.enabled,
+    editorBaseUrl: stored.ui.editorBaseUrl
+      ? stored.ui.editorBaseUrl.replace(/\/+$/, "")
+      : null,
     stateDir: normalizePath(stored.storage.stateDir),
     worktreeRoot: normalizePath(stored.workspaces.worktreeRoot),
     artifactsEnabled: stored.artifacts.enabled,

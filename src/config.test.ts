@@ -20,6 +20,7 @@ try {
   assert.deepEqual(defaults.allowedHosts, ["localhost", "127.0.0.1", "::1"]);
   assert.equal(defaults.toolMode, "codex");
   assert.equal(defaults.uiEnabled, true);
+  assert.equal(defaults.editorBaseUrl, null);
   assert.equal(defaults.skillsEnabled, true);
   assert.equal(defaults.artifactsEnabled, false);
   assert.deepEqual(defaults.subagents, { enabled: false, providers: [] });
@@ -48,7 +49,7 @@ try {
     },
     storage: { stateDir: "~/state" },
     tools: { mode: "claude" },
-    ui: { enabled: false },
+    ui: { enabled: false, editorBaseUrl: "https://maicc.gzpolpo.net/" },
     artifacts: { enabled: true, maxFileBytes: 321 },
     skills: { enabled: false, paths: ["~/skills"], agentDir: "~/agent" },
     subagents: {
@@ -88,6 +89,7 @@ try {
   ]);
   assert.equal(configured.toolMode, "claude");
   assert.equal(configured.uiEnabled, false);
+  assert.equal(configured.editorBaseUrl, "https://maicc.gzpolpo.net");
   assert.equal(configured.stateDir, resolve(homedir(), "state"));
   assert.equal(configured.worktreeRoot, resolve(homedir(), "trees"));
   assert.equal(configured.artifactsEnabled, true);

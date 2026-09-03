@@ -30,6 +30,7 @@ export interface ToolResultCard {
   review?:
     | { available: true }
     | { available: false; reason: string };
+  editorUrl?: string;
   summary?: Record<string, unknown>;
   files?: Array<{
     path?: string;
@@ -92,6 +93,7 @@ export function isExpandableCard(card: ToolResultCard): boolean {
     Boolean(card.agents?.length) ||
     Boolean(card.worktree) ||
     Boolean(card.instruction) ||
+    Boolean(card.editorUrl) ||
     card.review?.available === false
   );
 }

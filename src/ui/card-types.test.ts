@@ -21,4 +21,8 @@ test("workspace details open only when there is useful context", () => {
     tool: "open_workspace",
     review: { available: false, reason: "Not a Git repository." },
   }), true);
+  assert.equal(isExpandableCard({
+    tool: "open_workspace",
+    editorUrl: "https://maicc.gzpolpo.net/?folder=/tmp/project",
+  }), true);
 });

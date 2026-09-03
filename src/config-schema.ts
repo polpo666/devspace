@@ -28,6 +28,7 @@ const toolsConfigSchema = z.object({
 
 const uiConfigSchema = z.object({
   enabled: z.boolean().default(true),
+  editorBaseUrl: z.string().url().nullable().default(null),
 }).strict().prefault({});
 
 const artifactsConfigSchema = z.object({

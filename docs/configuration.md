@@ -42,6 +42,9 @@ Run `devspace init` to create both files. `devspace config set publicBaseUrl
   },
   "ui": {
     "enabled": true,
+    // Web editor origin. When set, workspace cards link to
+    // <editorBaseUrl>/?folder=<absolute workspace root>.
+    "editorBaseUrl": null,
   },
   "artifacts": {
     "enabled": false,
@@ -94,6 +97,11 @@ DevSpace attaches Apps UI metadata only to `open_workspace` and `show_changes`.
 This avoids rendering an iframe for every read, edit, search, or command call.
 Setting `ui.enabled` to `false` removes the metadata but does not remove the
 `show_changes` tool.
+
+Set `ui.editorBaseUrl` to a web editor origin such as
+`https://code.example.com` to make each workspace card show a `VS Code` link to
+`<editorBaseUrl>/?folder=<absolute workspace root>`. The link is omitted when
+`ui.editorBaseUrl` is `null`.
 
 ## Skills and subagents
 

@@ -74,6 +74,19 @@ test("open_workspace reports aggregate review availability", async (t) => {
   assert.deepEqual(gitReview, { available: true });
 });
 
+test("open_workspace omits editorUrl unless an editor base URL is configured", async (t) => {
+  const plain = await fixture(t);
+  const withoutEditor = await callOpen(plain.client, plain.project, "editor-off");
+  assert.equal(structuredContent(withoutEditor).editorUrl, undefined);
+  assert.equal(responseCard(withoutEditor).editorUrl, undefined);
+
+  const editor = await fixture(t, { editorBaseUrl: "https://maicc.gzpolpo.net" });
+  const withEditor = await callOpen(editor.client, editor.project, "editor-on");
+  const expected = `https://maicc.gzpolpo.net/?folder=${encodeURIComponent(editor.project)}`;
+  assert.equal(structuredContent(withEditor).editorUrl, expected);
+  assert.equal(responseCard(withEditor).editorUrl, expected);
+});
+
 test("show_changes keeps model output compact and preserves the rich review card", async (t) => {
   const context = await fixture(t, { git: true, uiEnabled: false });
   const opened = structuredContent(
@@ -300,6 +313,7 @@ async function fixture(
     subagents?: SubagentsConfig;
     toolMode?: ToolMode;
     uiEnabled?: boolean;
+    editorBaseUrl?: string;
   } = {},
 ): Promise<ServerFixture> {
   const root = await mkdtemp(join(tmpdir(), "devspace-server-test-"));
@@ -342,6 +356,7 @@ async function fixture(
     ...loadedConfig,
     toolMode: options.toolMode ?? loadedConfig.toolMode,
     uiEnabled: options.uiEnabled ?? loadedConfig.uiEnabled,
+    editorBaseUrl: options.editorBaseUrl ?? null,
   };
   const config: ServerConfig = options.localAgentProviders
     ? {

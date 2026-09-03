@@ -538,6 +538,10 @@ function renderWorkspacePayload(container: HTMLElement, card: ToolResultCard): v
   const rows = element("div", { className: "workspace-rows" });
   const worktree = card.worktree;
 
+  if (card.editorUrl) {
+    appendWorkspaceLinkRow(rows, "VS Code", card.editorUrl, toolIcons.editor);
+  }
+
   if (worktree) {
     const base = [
       worktree.baseRef,
@@ -840,6 +844,23 @@ function instructionStatusLabel(status: WorkspaceInstruction["status"]): string 
 function workspacePathBasename(path: string): string {
   const parts = path.replaceAll("\\", "/").split("/").filter(Boolean);
   return parts.at(-1) ?? path;
+}
+
+function appendWorkspaceLinkRow(
+  container: HTMLElement,
+  label: string,
+  url: string,
+  icon: ToolIcon,
+): void {
+  const link = element("a", {
+    className: "workspace-link",
+    text: url,
+    title: url,
+  });
+  link.href = url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  appendWorkspaceRow(container, label, link, icon);
 }
 
 function appendWorkspaceTextRow(

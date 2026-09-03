@@ -16,6 +16,7 @@ test("workspace cards can be rebuilt from structured content without result meta
       skills: [{ name: "tdd", description: "Tests first", path: "/tmp/tdd/SKILL.md" }],
       agentsFiles: [{ path: "AGENTS.md", content: "instructions" }],
       review: { available: true },
+      editorUrl: "https://maicc.gzpolpo.net/?folder=/tmp/project",
       instruction: "Reuse this workspace.",
     },
   });
@@ -26,6 +27,7 @@ test("workspace cards can be rebuilt from structured content without result meta
   assert.equal(decoded.card.workspaceId, "ws_1");
   assert.equal(decoded.card.summary?.skills, 1);
   assert.equal(decoded.card.summary?.agentsFiles, 1);
+  assert.equal(decoded.card.editorUrl, "https://maicc.gzpolpo.net/?folder=/tmp/project");
 });
 
 test("review results use rich metadata when the host provides it", () => {

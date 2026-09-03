@@ -186,6 +186,7 @@ function cardFields(record: Record<string, unknown> | undefined): Partial<ToolRe
         }
       : undefined,
     review: reviewAvailability(reviewRecord),
+    editorUrl: stringField(record.editorUrl),
     summary,
     files,
     payload: payloadRecord ? { patch: stringField(payloadRecord.patch) } : undefined,

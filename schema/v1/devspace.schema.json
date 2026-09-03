@@ -110,6 +110,18 @@
         "enabled": {
           "default": true,
           "type": "boolean"
+        },
+        "editorBaseUrl": {
+          "default": null,
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "uri"
+            },
+            {
+              "type": "null"
+            }
+          ]
         }
       },
       "additionalProperties": false

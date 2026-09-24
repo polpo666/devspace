@@ -28,6 +28,7 @@ try {
     instructions: "on-demand",
     providers: [],
   });
+  assert.deepEqual(defaults.oauth.allowedResourceUrls, []);
   assert.deepEqual(defaults.logging, {
     level: "info",
     format: "json",
@@ -73,6 +74,7 @@ try {
       accessTokenTtlSeconds: 120,
       refreshTokenTtlSeconds: 240,
       scopes: ["devspace", "admin"],
+      allowedResourceUrls: ["https://tunnel.example.com/v1/mcp/tunnel_123"],
       allowedRedirectHosts: ["chatgpt.com", "example.com"],
     },
   }, env);
@@ -107,6 +109,9 @@ try {
   assert.equal(configured.oauth.ownerToken, "persisted-owner-token-long-enough");
   assert.equal(configured.oauth.accessTokenTtlSeconds, 120);
   assert.deepEqual(configured.oauth.scopes, ["devspace", "admin"]);
+  assert.deepEqual(configured.oauth.allowedResourceUrls, [
+    "https://tunnel.example.com/v1/mcp/tunnel_123",
+  ]);
   assert.deepEqual(configured.logging, {
     level: "debug",
     format: "pretty",
